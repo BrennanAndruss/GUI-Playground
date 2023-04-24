@@ -30,8 +30,8 @@ public class TicTacToe extends JFrame {
 
         // Setting up the scores panel and array
         gameScores = new JLabel[2];
-        gameScores[0] = new JLabel("Player: " + playerScore, JLabel.CENTER);
-        gameScores[1] = new JLabel("Computer: " + computerScore, JLabel.CENTER);
+        gameScores[0] = new JLabel(player + ": " + playerScore, JLabel.CENTER);
+        gameScores[1] = new JLabel(computer + ": " + computerScore, JLabel.CENTER);
         scores.add(gameScores[0]);
         scores.add(gameScores[1]);
 
@@ -64,15 +64,42 @@ public class TicTacToe extends JFrame {
         // Check for valid selection
         if (btn.getText().equals(" ")) {
 
-            // Update the grid space and current player
+            // Update the grid space
             btn.setText(currentPlayer);
+
+            // Check grid for three in a row
+            for (int i = 0; i < 3; i++) {
+
+                // Horizontal check
+                if (gameGrid[i][0].getText() != " " && gameGrid[i][0].getText() == gameGrid[i][1].getText()
+                        && gameGrid[i][0].getText() == gameGrid[i][2].getText()) {
+                    endGame();
+                }
+                // Vertical check
+                else if (gameGrid[0][i].getText() != " " && gameGrid[0][i].getText() == gameGrid[1][i].getText()
+                        && gameGrid[0][i].getText() == gameGrid[2][i].getText()) {
+                    endGame();
+                }
+            }
+            // Diagonal check
+            if (gameGrid[0][0].getText() != " " && gameGrid[0][0].getText() == gameGrid[1][1].getText()
+                    && gameGrid[0][0].getText() == gameGrid[2][2].getText()) {
+                endGame();
+            } else if (gameGrid[0][2].getText() != " " && gameGrid[0][2].getText() == gameGrid[1][1].getText()
+                    && gameGrid[0][2].getText() == gameGrid[2][0].getText()) {
+                endGame();
+            }
+
+            // Change current player
             if (currentPlayer == player) {
                 currentPlayer = computer;
             } else {
                 currentPlayer = player;
             }
-
-            // Check grid for three in a row
         }
+    }
+
+    public void endGame() {
+        System.out.println(currentPlayer + " wins!");
     }
 }
